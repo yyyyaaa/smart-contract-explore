@@ -76,12 +76,26 @@ This document compares two approaches to implementing smart contract-like functi
 - More closely resembles Solidity's contract structure
 - Easier transition for developers familiar with Solidity
 
+## 8. Visibility Modifiers
+
+### "ts" Approach
+- No built-in visibility modifiers
+- Uses naming conventions (e.g., underscore prefix for "private" properties) and module-level encapsulation
+- "Public" functions are exported, "private" functions are not exported
+- Requires discipline from developers to maintain intended visibility
+
+### "ts-class-based" Approach
+- Uses TypeScript's `public`, `private`, and `protected` modifiers
+- Closely mirrors Solidity's visibility modifiers
+- Enforced by TypeScript compiler, providing better encapsulation
+- More intuitive mapping to Solidity's visibility concepts
+
 ## Conclusion
 
 Both approaches have their merits:
 
-- The "ts" approach is more aligned with functional programming principles, offering immutability and explicit state management. It's well-suited for complex state manipulations and easier testing.
+- The "ts" approach is more aligned with functional programming principles, offering immutability and explicit state management. It's well-suited for complex state manipulations and easier testing. However, it lacks built-in visibility control and relies on conventions.
 
-- The "ts-class-based" approach is more familiar to developers coming from Solidity or traditional OOP backgrounds. It more closely mimics the structure of actual smart contracts.
+- The "ts-class-based" approach is more familiar to developers coming from Solidity or traditional OOP backgrounds. It more closely mimics the structure of actual smart contracts and provides better visibility control through TypeScript's modifiers.
 
-The choice between these approaches depends on the specific needs of the project, the team's background, and the desired balance between Solidity-like syntax and functional programming benefits.
+The choice between these approaches depends on the specific needs of the project, the team's background, and the desired balance between Solidity-like syntax, functional programming benefits, and visibility control.
