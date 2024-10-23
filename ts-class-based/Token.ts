@@ -20,7 +20,7 @@ export class Token {
     this.totalSupply = initialSupply.mul(BigNumber.from(10).pow(decimals));
     this.balances = new Map([[msg.sender, this.totalSupply]]);
     this.allowances = new Map();
-    this.emitTransfer(
+    this.logTransfer(
       "0x0000000000000000000000000000000000000000",
       msg.sender,
       this.totalSupply
@@ -42,7 +42,7 @@ export class Token {
       this.allowances.set(msg.sender, ownerAllowances);
     }
     ownerAllowances.set(spender, amount);
-    this.emitApproval(msg.sender, spender, amount);
+    this.logApproval(msg.sender, spender, amount);
     return true;
   }
 
@@ -52,16 +52,13 @@ export class Token {
     amount: BigNumber
   ): boolean {
     const senderBalance = this.balances.get(sender) ?? BigNumber.from(0);
-    if (senderBalance.lt(amount)) {
-      throw new Error("Insufficient balance");
-    }
+
+    validate(senderBalance.gte(amount), "Insufficient balance");
 
     if (sender !== msg.sender) {
       const allowance =
         this.allowances.get(sender)?.get(msg.sender) ?? BigNumber.from(0);
-      if (allowance.lt(amount)) {
-        throw new Error("Insufficient allowance");
-      }
+      validate(allowance.gte(amount), "Insufficient allowance");
       this.allowances.get(sender)!.set(msg.sender, allowance.sub(amount));
     }
 
@@ -69,7 +66,7 @@ export class Token {
     const recipientBalance = this.balances.get(recipient) ?? BigNumber.from(0);
     this.balances.set(recipient, recipientBalance.add(amount));
 
-    this.emitTransfer(sender, recipient, amount);
+    this.logTransfer(sender, recipient, amount);
     return true;
   }
 
@@ -77,12 +74,12 @@ export class Token {
     return this.allowances.get(owner)?.get(spender) ?? BigNumber.from(0);
   }
 
-  private emitTransfer(from: string, to: string, value: BigNumber): void {
+  private logTransfer(from: string, to: string, value: BigNumber): void {
     // Simulate event emission
     console.log("Transfer", { from, to, value });
   }
 
-  private emitApproval(owner: string, spender: string, value: BigNumber): void {
+  private logApproval(owner: string, spender: string, value: BigNumber): void {
     // Simulate event emission
     console.log("Approval", { owner, spender, value });
   }

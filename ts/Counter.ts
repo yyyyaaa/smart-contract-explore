@@ -1,6 +1,6 @@
 import { BigNumber } from "jsd-std";
 
-export interface CounterState {
+export interface State {
   _count: BigNumber; // Underscore prefix indicates "private"
 }
 
@@ -9,22 +9,22 @@ export interface CountChangedEvent {
 }
 
 // Public functions
-export function initialize(initialCount: BigNumber): CounterState {
+export function initialize(initialCount: BigNumber): State {
   return { _count: initialCount };
 }
 
 export function increment(
-  state: CounterState,
+  state: State,
   { amount }: { amount: BigNumber }
-): [CounterState, CountChangedEvent] {
+): [State, CountChangedEvent] {
   const newCount = state._count.add(amount);
   return [{ _count: newCount }, { newCount }];
 }
 
 export function decrement(
-  state: CounterState,
+  state: State,
   { amount }: { amount: BigNumber }
-): [CounterState, CountChangedEvent] {
+): [State, CountChangedEvent] {
   if (state._count.lt(amount)) {
     throw new Error("Count cannot be negative");
   }
@@ -32,7 +32,7 @@ export function decrement(
   return [{ _count: newCount }, { newCount }];
 }
 
-export function getCount(state: CounterState): BigNumber {
+export function getCount(state: State): BigNumber {
   return state._count;
 }
 

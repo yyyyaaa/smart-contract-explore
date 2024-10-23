@@ -90,6 +90,9 @@ This document compares two approaches to implementing smart contract-like functi
 - Enforced by TypeScript compiler, providing better encapsulation
 - More intuitive mapping to Solidity's visibility concepts
 
+## 9. Frontend devs may be more familiar with the "ts" approach
+Because frontend devs are used to working with objects and state, the "ts" approach may feel more natural to them, and React makes it easier to work with immutable objects.
+
 ## Conclusion
 
 Both approaches have their merits:

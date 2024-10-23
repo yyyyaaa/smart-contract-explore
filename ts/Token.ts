@@ -21,6 +21,8 @@ export interface ApprovalEvent {
   value: BigNumber;
 }
 
+// Special function named "initialize" to replace the constructor
+// in class-based approach
 export function initialize(
   name: string,
   symbol: string,
