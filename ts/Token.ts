@@ -56,9 +56,7 @@ export function transfer(
   { from, to, amount }: { from: string; to: string; amount: BigNumber }
 ): [TokenState, TransferEvent] {
   const fromBalance = state.balances.get(from) ?? BigNumber.from(0);
-  if (fromBalance.lt(amount)) {
-    throw new Error("Insufficient balance");
-  }
+  validate(fromBalance.gte(amount), "Insufficient balance");
 
   const newFromBalance = fromBalance.sub(amount);
   const newToBalance = (state.balances.get(to) ?? BigNumber.from(0)).add(
@@ -112,15 +110,11 @@ export function transferFrom(
   }: { sender: string; recipient: string; amount: BigNumber; spender: string }
 ): [TokenState, TransferEvent] {
   const senderBalance = state.balances.get(sender) ?? BigNumber.from(0);
-  if (senderBalance.lt(amount)) {
-    throw new Error("Insufficient balance");
-  }
+  validate(senderBalance.gte(amount), "Insufficient balance");
 
   const currentAllowance =
     state.allowances.get(sender)?.get(spender) ?? BigNumber.from(0);
-  if (currentAllowance.lt(amount)) {
-    throw new Error("Insufficient allowance");
-  }
+  validate(currentAllowance.gte(amount), "Insufficient allowance");
 
   const newSenderBalance = senderBalance.sub(amount);
   const newRecipientBalance = (
