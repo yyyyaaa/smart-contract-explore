@@ -93,6 +93,41 @@ This document compares two approaches to implementing smart contract-like functi
 ## 9. Frontend devs may be more familiar with the "ts" approach
 Because frontend devs are used to working with objects and state, the "ts" approach may feel more natural to them, and React makes it easier to work with immutable objects.
 
+## 10. require() calls and rollbacks
+// Assertion-style
+assert(condition, "error message");
+ensure(condition, "error message");
+verify(condition, "error message");
+check(condition, "error message");
+validate(condition, "error message");
+
+// Guard clause style
+guard(condition).else("error message");
+guardThat(condition).orThrow("error message");
+enforceCondition(condition, "error message");
+
+// Exception-style
+throwUnless(condition, "error message");
+throwIf(!condition, "error message");
+
+// Contract programming style
+precondition(condition, "error message");
+invariant(condition, "error message");
+contractGuard(condition, "error message");
+
+// More TypeScript-like
+if (!condition) throw new ContractError("error message");
+if (!condition) revert("error message");
+
+// Decorator style
+@requires(condition, "error message")
+function transfer() { }
+
+// Functional style
+Either.fromPredicate(condition, "error message")
+Result.ensure(condition, "error message")
+Option.require(condition, "error message")
+
 ## Conclusion
 
 Both approaches have their merits:
@@ -102,3 +137,4 @@ Both approaches have their merits:
 - The "ts-class-based" approach is more familiar to developers coming from Solidity or traditional OOP backgrounds. It more closely mimics the structure of actual smart contracts and provides better visibility control through TypeScript's modifiers.
 
 The choice between these approaches depends on the specific needs of the project, the team's background, and the desired balance between Solidity-like syntax, functional programming benefits, and visibility control.
+
