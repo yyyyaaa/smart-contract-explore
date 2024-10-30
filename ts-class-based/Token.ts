@@ -1,10 +1,11 @@
-import { BigNumber } from "jsd-std";
+import { BigNumber, Contract } from "hyperweb-core";
 
-export class Token {
+export class Token extends Contract {
   public readonly name: string;
   public readonly symbol: string;
   public readonly decimals: number;
-  private totalSupply: BigNumber;
+  // Do we need to support BigNumber<"uint8"> and other number types?
+  private totalSupply: BigNumber<"uint8">;
   private balances: Map<string, BigNumber>;
   private allowances: Map<string, Map<string, BigNumber>>;
 
